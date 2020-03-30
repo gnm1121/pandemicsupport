@@ -5,7 +5,7 @@ module.exports = {
   siteMetadata: {
     title: `Pandemic Support`,
     description: `Support local businesses who are dealing with the repurcussions of covid-19.`,
-    author: `@gatsbyjs`,
+    author: `Gabe Mulley`,
   },
   plugins: [
     {
@@ -54,7 +54,7 @@ module.exports = {
         typePrefix: "GoogleSpreadsheet",
         credentials: {
           client_email: process.env.GOOGLE_SPREADSHEET_AUTH_EMAIL,
-          private_key: process.env.GOOGLE_SPREADSHEET_AUTH_PRIVATE_KEY
+          private_key: process.env.GOOGLE_SPREADSHEET_AUTH_PRIVATE_KEY.replace(/\\n/gm, '\n')
         }
       }
     },
