@@ -1,16 +1,11 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import { Grommet, Anchor, Box, Footer, Text } from "grommet"
+import { grommet } from "grommet/themes";
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -24,21 +19,27 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
+    <Grommet
+      theme={grommet}
+      full
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer>
+      <Box as="main" pad="medium" flex overflow="auto">
+        {children}
+      </Box>
+      <Footer background="light-4" justify="center" pad="small">
+        <Text textAlign="center" size="small">
           © {new Date().getFullYear()}
-        </footer>
-      </div>
-    </>
+          { ` Gabe Mulley, Built with icons made by `}
+          <Anchor href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</Anchor>
+          { ` from `} <Anchor href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</Anchor>
+        </Text>
+      </Footer>
+    </Grommet>
   )
 }
 
