@@ -84,7 +84,7 @@ const Hits = ({ hits, hitComponent }) => (
         round="small"
         margin={{right: "small", top: "small"}}
         justify="between"
-        width="200px"
+        width="230px"
       >
         {hitComponent({ hit })}
       </Box>
@@ -103,34 +103,44 @@ const OpportunityHit = ({ hit }) => (
 
 
 // socialMediaLink
-const BusinessHit = ({ hit }) => (
-  <>
-    <Box
-      justify="center"
-      height={{min: "100px"}}
-    >
-      <Anchor href={hit.websiteLink}>
-        {hit.logoPublicUrl ? (<img
-          src={hit.logoPublicUrl}
-          alt={hit.name}
-          width="130px"
-        />) : (
-            <Text>{hit.name}</Text>
-        )}
-      </Anchor>
-    </Box>
-    <Box
-      margin={{top: "small"}}
-      gap="xsmall"
-      align="center"
-    >
-      {hit.giftCardPurchaseLink && <Anchor href={hit.giftCardPurchaseLink} onClick={() => trackGoal('JIEHERJY')}>Buy Gift Cards</Anchor>}
-      {hit.merchandisePurchaseLink && <Anchor href={hit.merchandisePurchaseLink} onClick={() => trackGoal('JIEHERJY')}>Buy Merch</Anchor>}
-      {hit.socialMediaLink && <Anchor href={hit.socialMediaLink}>Follow Updates</Anchor>}
-      {hit.donationLink && <Button label="Donate" href={hit.donationLink} onClick={() => trackGoal('JIEHERJY')} />}
-    </Box>
-  </>
-);
+const BusinessHit = ({ hit }) => {
+  let url = '', label = '';
+  if (hit.donationLink) {
+    url = hit.donationLink;
+    label = "Donate";
+  } else if (hit.onlineOrderingLink) {
+    url = hit.onlineOrderingLink;
+    label = "Order Online";
+  }
+  return (
+    <>
+      <Box
+        justify="center"
+        height={{min: "100px"}}
+      >
+        <Anchor href={hit.websiteLink}>
+          {hit.logoPublicUrl ? (<img
+            src={hit.logoPublicUrl}
+            alt={hit.name}
+            width="130px"
+          />) : (
+              <Text>{hit.name}</Text>
+          )}
+        </Anchor>
+      </Box>
+      <Box
+        margin={{top: "small"}}
+        gap="xsmall"
+        align="center"
+      >
+        {url !== hit.onlineOrderingLink && hit.onlineOrderingLink && <Anchor href={hit.onlineOrderingLink} onClick={() => trackGoal('JIEHERJY')}>Order Online</Anchor>}
+        {hit.giftCardPurchaseLink && <Anchor href={hit.giftCardPurchaseLink} onClick={() => trackGoal('JIEHERJY')}>Buy Gift Cards</Anchor>}
+        {hit.merchandisePurchaseLink && <Anchor href={hit.merchandisePurchaseLink} onClick={() => trackGoal('JIEHERJY')}>Buy Merch</Anchor>}
+        {hit.socialMediaLink && <Anchor href={hit.socialMediaLink}>Follow Updates</Anchor>}
+        {url && <Button label={label} href={url} onClick={() => trackGoal('JIEHERJY')} />}
+      </Box>
+    </>
+)};
 
 const CustomHits = connectHits(Hits);
 

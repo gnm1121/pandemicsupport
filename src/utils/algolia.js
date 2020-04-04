@@ -12,6 +12,7 @@ const businessQuery = `{
           merchandisePurchaseLink
           websiteLink
           socialMediaLink
+          onlineOrderingLink
           logoImage {
             publicURL
           }
@@ -53,6 +54,7 @@ const opportunityQuery = `{
               state
               covid19Cases
               covid19Deaths
+              talentNeeded
             }
           }
         }
