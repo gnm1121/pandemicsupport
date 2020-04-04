@@ -8,6 +8,7 @@ import {
   Highlight,
   connectRefinementList,
   createConnector,
+  connectPagination,
 } from "react-instantsearch-dom"
 import places from 'places.js'
 import algoliasearch from "algoliasearch/lite"
@@ -48,11 +49,13 @@ const IndexPage = () => {
             <CustomRefinementList label="Remote volunteers welcome?" attribute="remote" />
           </Box>
           <CustomHits hitComponent={OpportunityHit} />
+          <CustomPagination />
         </Index>
         <Anchor href="https://forms.gle/TFoUSDuq6uC51J5F9" target="_blank" rel="noopener"><Add /> Add an opportunity</Anchor>
         <Heading level={2}>Support local businesses</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
           <CustomHits hitComponent={BusinessHit} />
+          <CustomPagination />
         </Index>
         <Anchor href="https://forms.gle/qhp5cuUS4PVeUa8w8" target="_blank" rel="noopener"><Add /> Add a business</Anchor>
       </InstantSearch>
@@ -63,20 +66,21 @@ const IndexPage = () => {
 const Hits = ({ hits, hitComponent }) => (
   <Box
     direction="row-responsive"
-    margin={{top: "small", bottom: "small"}}
+    margin={{bottom: "small"}}
     justify="start"
+    wrap
   >
     {hits.map(hit => (
       <Box
         key={hit.objectID}
         direction="column"
         background="light-3"
-        pad="small"
+        pad="medium"
         align="center"
         round="small"
-        margin={{right: "small"}}
-        basis="small"
+        margin={{right: "small", top: "small"}}
         justify="between"
+        width="200px"
       >
         {hitComponent({ hit })}
       </Box>
@@ -93,18 +97,34 @@ const OpportunityHit = ({ hit }) => (
   </>
 );
 
+
+// socialMediaLink
 const BusinessHit = ({ hit }) => (
   <>
-    {hit.logoPublicUrl ? (<img
-      src={hit.logoPublicUrl}
-      alt={hit.name}
-      width="100px"
-    />) : (
+    <Box
+      justify="center"
+      height={{min: "100px"}}
+    >
       <Anchor href={hit.websiteLink}>
-        <Text>{hit.name}</Text>
+        {hit.logoPublicUrl ? (<img
+          src={hit.logoPublicUrl}
+          alt={hit.name}
+          width="130px"
+        />) : (
+            <Text>{hit.name}</Text>
+        )}
       </Anchor>
-    )}
-    {hit.donationLink && <Button label="Support" href={hit.donationLink} margin={{top: "small"}} onClick={() => trackGoal('JIEHERJY')} />}
+    </Box>
+    <Box
+      margin={{top: "small"}}
+      gap="xsmall"
+      align="center"
+    >
+      {hit.giftCardPurchaseLink && <Anchor href={hit.giftCardPurchaseLink} onClick={() => trackGoal('JIEHERJY')}>Buy Gift Cards</Anchor>}
+      {hit.merchandisePurchaseLink && <Anchor href={hit.merchandisePurchaseLink} onClick={() => trackGoal('JIEHERJY')}>Buy Merch</Anchor>}
+      {hit.socialMediaLink && <Anchor href={hit.socialMediaLink}>Follow Updates</Anchor>}
+      {hit.donationLink && <Button label="Donate" href={hit.donationLink} onClick={() => trackGoal('JIEHERJY')} />}
+    </Box>
   </>
 );
 
@@ -238,6 +258,36 @@ class Places extends React.Component {
 }
 
 const PlacesSearchBox = placesConnector(Places);
+
+const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
+  <Box
+    direction="row"
+    justify="center"
+  >
+    {nbPages > 1 && new Array(nbPages).fill(null).map((_, index) => {
+      const page = index + 1;
+      const style = {
+        fontWeight: currentRefinement === page ? 'bold' : '',
+      };
+
+      return (
+        <Anchor
+          key={index}
+          href={createURL(page)}
+          style={style}
+          onClick={event => {
+            event.preventDefault();
+            refine(page);
+          }}
+        >
+          {page}
+        </Anchor>
+      );
+    })}
+  </Box>
+);
+
+const CustomPagination = connectPagination(Pagination);
 
 
 export default IndexPage
