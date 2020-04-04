@@ -21,7 +21,6 @@ const Layout = ({ children }) => {
   return (
     <Grommet
       theme={grommet}
-      full
     >
       <Header siteTitle={data.site.siteMetadata.title} />
       <Main pad="medium">

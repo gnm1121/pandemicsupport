@@ -43,17 +43,16 @@ const IndexPage = () => {
           <CustomHits hitComponent={OpportunityHit} />
         </Index>
         <Heading level={2}>Support local businesses</Heading>
-        {/* <Index indexName={process.env.ALGOLIA_BUSINESS_INDEX_NAME}>
+        <Index indexName={process.env.ALGOLIA_BUSINESS_INDEX_NAME}>
           <Box
             direction="row-responsive"
-            align="start"
-            pad="xlarge"
             gap="medium"
+            margin={{top: "small"}}
           >
             <CustomRefinementList label="Business type" attribute="businessType" />
-            <CustomHits hitComponent={BusinessHit} />
           </Box>
-        </Index> */}
+          <CustomHits hitComponent={BusinessHit} />
+        </Index>
       </InstantSearch>
     </Layout>
   )
@@ -62,48 +61,49 @@ const IndexPage = () => {
 const Hits = ({ hits, hitComponent }) => (
   <Box
     direction="row-responsive"
-    gap="medium"
+    margin="small"
+    justify="start"
   >
-    {hits.map(hit =>
-      hitComponent({ hit })
-    )}
+    {hits.map(hit => (
+      <Box
+        key={hit.objectID}
+        direction="column"
+        background="light-3"
+        pad="small"
+        align="center"
+        round="small"
+        margin="small"
+        basis="small"
+        justify="between"
+      >
+        {hitComponent({ hit })}
+      </Box>
+    ))}
   </Box>
 );
 
 const OpportunityHit = ({ hit }) => (
-  <Box
-    key={hit.objectID}
-    pad="large"
-    align="center"
-    background="light-3"
-    round
-  >
+  <>
     <Anchor href={hit.websiteLink}>
       <Text>{hit.name}</Text>
     </Anchor>
-    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} />}
-  </Box>
+    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} margin={{top: "small"}} />}
+  </>
 );
 
 const BusinessHit = ({ hit }) => (
-  <Box
-    key={hit.objectID}
-    pad="large"
-    align="center"
-    background={{ color: "light-3", opacity: "strong" }}
-    round
-    gap="small"
-  >
-    <img
+  <>
+    {hit.logoPublicUrl ? (<img
       src={hit.logoPublicUrl}
       alt={hit.name}
       width="100px"
-    />
-    <Anchor href={hit.websiteLink}>
-      <Text>{hit.name}</Text>
-    </Anchor>
-    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} />}
-  </Box>
+    />) : (
+      <Anchor href={hit.websiteLink}>
+        <Text>{hit.name}</Text>
+      </Anchor>
+    )}
+    {hit.donationLink && <Button label="Support" href={hit.donationLink} margin={{top: "small"}} />}
+  </>
 );
 
 const CustomHits = connectHits(Hits);
