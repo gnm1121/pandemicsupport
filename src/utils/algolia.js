@@ -75,13 +75,13 @@ const queries = [
     {
         query: businessQuery,
         transformer: ({ data }) => preprocessBusinesses(data.businesses.edges),
-        indexName: process.env.ALGOLIA_BUSINESS_INDEX_NAME,
+        indexName: process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME,
         settings,
     },
     {
         query: opportunityQuery,
         transformer: ({ data }) => preprocessOpportunity(data.opportunities.edges),
-        indexName: process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME,
+        indexName: process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME,
         settings,
     },
 ]

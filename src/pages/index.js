@@ -25,13 +25,13 @@ const IndexPage = () => {
       <SEO title="Pandemic Support" />
       <InstantSearch
         searchClient={searchClient}
-        indexName={process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME}
+        indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}
       >
         <Heading level={2}>Help your community fight the virus!</Heading>
         <PlacesSearchBox
           placeholder="Where are you?"
         />
-        <Index indexName={process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME}>
+        <Index indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}>
           <Box
             direction="row-responsive"
             gap="medium"
@@ -43,7 +43,7 @@ const IndexPage = () => {
           <CustomHits hitComponent={OpportunityHit} />
         </Index>
         <Heading level={2}>Support local businesses</Heading>
-        <Index indexName={process.env.ALGOLIA_BUSINESS_INDEX_NAME}>
+        <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
           <Box
             direction="row-responsive"
             gap="medium"
@@ -61,7 +61,7 @@ const IndexPage = () => {
 const Hits = ({ hits, hitComponent }) => (
   <Box
     direction="row-responsive"
-    margin="small"
+    margin={{top: "small", bottom: "small"}}
     justify="start"
   >
     {hits.map(hit => (
@@ -72,7 +72,7 @@ const Hits = ({ hits, hitComponent }) => (
         pad="small"
         align="center"
         round="small"
-        margin="small"
+        margin={{right: "small"}}
         basis="small"
         justify="between"
       >

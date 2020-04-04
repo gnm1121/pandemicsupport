@@ -34,7 +34,7 @@ module.exports = {
     {
       resolve: "gatsby-source-google-spreadsheet",
       options: {
-        spreadsheetId: process.env.LOCAL_BUSINESSES_SPREADSHEET_ID,
+        spreadsheetId: process.env.SPREADSHEET_ID,
     
         // The `spreadsheetName` is recommended, but optional
         // It is used as part of the id's during the node creation, as well as in the generated GraphQL-schema
@@ -72,7 +72,7 @@ module.exports = {
       resolve: `gatsby-plugin-algolia`,
       options: {
         appId: process.env.GATSBY_ALGOLIA_APP_ID,
-        apiKey: process.env.GATSBY_ALGOLIA_ADMIN_API_KEY,
+        apiKey: process.env.ALGOLIA_ADMIN_API_KEY,
         queries,
         chunkSize: 10000, // default: 1000
       },
