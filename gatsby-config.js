@@ -89,6 +89,7 @@ module.exports = {
       resolve: 'gatsby-plugin-fathom',
       options: {
         siteId: process.env.GATSBY_FATHOM_SITE_ID,
+        whitelistHostnames: [],
       }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
