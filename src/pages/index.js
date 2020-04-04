@@ -16,6 +16,12 @@ import { Add } from 'grommet-icons'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+const trackGoal = () => {
+  if (typeof window !== 'undefined' && 'fathom' in window) {
+    window.fathom('trackGoal', process.env.GATSBY_FATHOM_SITE_ID, 0);
+  }
+}
+
 const IndexPage = () => {
   const searchClient = algoliasearch(
     process.env.GATSBY_ALGOLIA_APP_ID,
@@ -90,7 +96,7 @@ const OpportunityHit = ({ hit }) => (
     <Anchor href={hit.websiteLink}>
       <Text>{hit.name}</Text>
     </Anchor>
-    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} margin={{top: "small"}} />}
+    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} margin={{top: "small"}} onClick={trackGoal} />}
   </>
 );
 
@@ -105,7 +111,7 @@ const BusinessHit = ({ hit }) => (
         <Text>{hit.name}</Text>
       </Anchor>
     )}
-    {hit.donationLink && <Button label="Support" href={hit.donationLink} margin={{top: "small"}} />}
+    {hit.donationLink && <Button label="Support" href={hit.donationLink} margin={{top: "small"}} onClick={trackGoal} />}
   </>
 );
 
