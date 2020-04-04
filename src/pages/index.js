@@ -9,6 +9,7 @@ import {
   connectRefinementList,
   createConnector,
   connectPagination,
+  Configure,
 } from "react-instantsearch-dom"
 import places from 'places.js'
 import algoliasearch from "algoliasearch/lite"
@@ -38,6 +39,9 @@ const IndexPage = () => {
         <Heading level={2}>Help your community fight the virus!</Heading>
         <PlacesSearchBox
           placeholder="Where are you?"
+        />
+        <Configure
+          hitsPerPage={10}
         />
         <Index indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}>
           <Box
@@ -263,27 +267,46 @@ const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
   <Box
     direction="row"
     justify="center"
+    gap="xsmall"
+    align="center"
   >
+    {currentRefinement !== 1 && <Box
+      pad="xsmall"
+      align="center"
+    >
+      <Anchor onClick={() => refine(currentRefinement + 1)}>Prev</Anchor>
+    </Box>}
     {nbPages > 1 && new Array(nbPages).fill(null).map((_, index) => {
       const page = index + 1;
-      const style = {
-        fontWeight: currentRefinement === page ? 'bold' : '',
-      };
+      const isCurrentPage = currentRefinement === page;
 
       return (
-        <Anchor
-          key={index}
-          href={createURL(page)}
-          style={style}
-          onClick={event => {
-            event.preventDefault();
-            refine(page);
-          }}
+        <Box
+          border={isCurrentPage ? null : "all"}
+          pad="xsmall"
         >
-          {page}
-        </Anchor>
+          {isCurrentPage ? (<Text>{page}</Text>) : (
+            <Anchor
+              key={index}
+              href={createURL(page)}
+              onClick={event => {
+                event.preventDefault();
+                refine(page);
+              }}
+            >
+              {page}
+            </Anchor>
+          )}
+        </Box>
       );
     })}
+  
+  {currentRefinement !== nbPages && <Box
+      pad="xsmall"
+      align="center"
+    >
+      <Anchor onClick={() => refine(currentRefinement + 1)}>Next</Anchor>
+    </Box>}
   </Box>
 );
 
