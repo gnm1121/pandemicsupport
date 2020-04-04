@@ -11,6 +11,7 @@ import {
 } from "react-instantsearch-dom"
 import places from 'places.js'
 import algoliasearch from "algoliasearch/lite"
+import { Add } from 'grommet-icons'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -42,6 +43,7 @@ const IndexPage = () => {
           </Box>
           <CustomHits hitComponent={OpportunityHit} />
         </Index>
+        <Anchor href="https://forms.gle/TFoUSDuq6uC51J5F9" target="_blank" rel="noopener"><Add /> Add an opportunity</Anchor>
         <Heading level={2}>Support local businesses</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
           <Box
@@ -53,6 +55,7 @@ const IndexPage = () => {
           </Box>
           <CustomHits hitComponent={BusinessHit} />
         </Index>
+        <Anchor href="https://forms.gle/qhp5cuUS4PVeUa8w8" target="_blank" rel="noopener"><Add /> Add a business</Anchor>
       </InstantSearch>
     </Layout>
   )
