@@ -84,6 +84,12 @@ module.exports = {
           include: /\.inline\.svg$/
         }
       }
+    },
+    {
+      resolve: 'gatsby-plugin-fathom',
+      options: {
+        siteId: process.env.GATSBY_FATHOM_SITE_ID,
+      }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
