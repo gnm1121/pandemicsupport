@@ -16,9 +16,9 @@ import { Add } from 'grommet-icons'
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const trackGoal = () => {
+const trackGoal = (goalId) => {
   if (typeof window !== 'undefined' && 'fathom' in window) {
-    window.fathom('trackGoal', process.env.GATSBY_FATHOM_SITE_ID, 0);
+    window.fathom('trackGoal', goalId, 0);
   }
 }
 
@@ -96,7 +96,7 @@ const OpportunityHit = ({ hit }) => (
     <Anchor href={hit.websiteLink}>
       <Text>{hit.name}</Text>
     </Anchor>
-    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} margin={{top: "small"}} onClick={trackGoal} />}
+    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} margin={{top: "small"}} onClick={() => trackGoal('MEBZPZAO')} />}
   </>
 );
 
@@ -111,7 +111,7 @@ const BusinessHit = ({ hit }) => (
         <Text>{hit.name}</Text>
       </Anchor>
     )}
-    {hit.donationLink && <Button label="Support" href={hit.donationLink} margin={{top: "small"}} onClick={trackGoal} />}
+    {hit.donationLink && <Button label="Support" href={hit.donationLink} margin={{top: "small"}} onClick={() => trackGoal('JIEHERJY')} />}
   </>
 );
 
