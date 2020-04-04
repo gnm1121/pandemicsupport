@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Box, Button, Anchor, Text, TextInput, CheckBox } from "grommet"
+import { Box, Button, Anchor, Text, TextInput, CheckBox, Heading } from "grommet"
 import {
   InstantSearch,
-  Configure,
+  Index,
   connectHits,
   Highlight,
   connectRefinementList,
@@ -27,47 +27,82 @@ const IndexPage = () => {
         searchClient={searchClient}
         indexName={process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME}
       >
+        <Heading level={2}>Help your community fight the virus!</Heading>
         <PlacesSearchBox
           placeholder="Where are you?"
         />
-        <Box
-          direction="row-responsive"
-          align="start"
-          pad="xlarge"
-          gap="medium"
-        >
-          <CustomRefinementList label="Opportunity Type" attribute="opportunityType" />
-          <CustomRefinementList label="State" searchable={true} attribute="state" />
-          <CustomRefinementList label="Is Remote?" attribute="remote" />
-        </Box>
-        <CustomHits />
+        <Index indexName={process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME}>
+          <Box
+            direction="row-responsive"
+            gap="medium"
+            margin={{top: "small"}}
+          >
+            <CustomRefinementList label="Opportunity type" attribute="opportunityType" />
+            <CustomRefinementList label="Remote volunteers welcome?" attribute="remote" />
+          </Box>
+          <CustomHits hitComponent={OpportunityHit} />
+        </Index>
+        <Heading level={2}>Support local businesses</Heading>
+        {/* <Index indexName={process.env.ALGOLIA_BUSINESS_INDEX_NAME}>
+          <Box
+            direction="row-responsive"
+            align="start"
+            pad="xlarge"
+            gap="medium"
+          >
+            <CustomRefinementList label="Business type" attribute="businessType" />
+            <CustomHits hitComponent={BusinessHit} />
+          </Box>
+        </Index> */}
       </InstantSearch>
     </Layout>
   )
 }
 
-const Hits = ({ hits }) => (
+const Hits = ({ hits, hitComponent }) => (
   <Box
     direction="row-responsive"
-    align="start"
-    pad="xlarge"
     gap="medium"
   >
-    {hits.map(hit => (
-      <Box
-        key={hit.objectID}
-        pad="large"
-        align="center"
-        background={{ color: "light-3", opacity: "strong" }}
-        round
-        gap="small"
-      >
-        <Anchor href={hit.websiteLink}>
-          <Text>{hit.name}</Text>
-        </Anchor>
-        {hit.websiteLink && <Button label="Support" href={hit.websiteLink} />}
-      </Box>
-    ))}
+    {hits.map(hit =>
+      hitComponent({ hit })
+    )}
+  </Box>
+);
+
+const OpportunityHit = ({ hit }) => (
+  <Box
+    key={hit.objectID}
+    pad="large"
+    align="center"
+    background="light-3"
+    round
+  >
+    <Anchor href={hit.websiteLink}>
+      <Text>{hit.name}</Text>
+    </Anchor>
+    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} />}
+  </Box>
+);
+
+const BusinessHit = ({ hit }) => (
+  <Box
+    key={hit.objectID}
+    pad="large"
+    align="center"
+    background={{ color: "light-3", opacity: "strong" }}
+    round
+    gap="small"
+  >
+    <img
+      src={hit.logoPublicUrl}
+      alt={hit.name}
+      width="100px"
+    />
+    <Anchor href={hit.websiteLink}>
+      <Text>{hit.name}</Text>
+    </Anchor>
+    {hit.websiteLink && <Button label="Support" href={hit.websiteLink} />}
   </Box>
 );
 
@@ -87,6 +122,8 @@ const RefinementList = ({
     <Box
       pad="medium"
       background="light-1"
+      direction="column"
+      gap="xsmall"
     >
       <Text>{label}</Text>
       {searchable && <TextInput
@@ -98,7 +135,9 @@ const RefinementList = ({
       />}
       {items.map(item => {
         return (
-        <Box key={item.label}>
+        <Box
+          key={item.label}
+        >
           <CheckBox
             checked={item.isRefined}
             onChange={event => {

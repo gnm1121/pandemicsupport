@@ -1,5 +1,20 @@
 const { createRemoteFileNode } = require("gatsby-source-filesystem")
 
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /places.js/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    })
+  }
+}
+
 exports.onCreateNode = async ({
   node,
   actions: { createNode },

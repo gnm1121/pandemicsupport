@@ -7,18 +7,28 @@ const businessQuery = `{
           businessType: whatTypeOfBusinessIsIt_
           supportMethods: howCanPeopleSupportThisBusiness_
           locations
+          donationLink
+          giftCardPurchaseLink
+          merchandisePurchaseLink
+          websiteLink
+          socialMediaLink
+          logoImage {
+            publicURL
+          }
         }
       }
     }
   }`
-  const preprocessBusinesses = arr =>
-    arr.map(({ node: {locations, supportMethods, ...rest} }) => ({
+
+const preprocessBusinesses = arr =>
+    arr.map(({ node: { locations, supportMethods, logoImage, ...rest } }) => ({
         ...rest,
         supportMethods: supportMethods.split(","),
         addresses: locations.split("|").map((l) => {
             loc = l.split(':')
             return loc[0]
         }),
+        logoPublicUrl: process.env.EXTERNAL_BASE_URL + logoImage.publicURL,
         _geoloc: locations.split("|").map((l) => {
             loc = l.split(':')
             return {
@@ -28,7 +38,7 @@ const businessQuery = `{
         }),
     }))
 
-    const opportunityQuery = `{
+const opportunityQuery = `{
         opportunities: allGoogleSpreadsheetOpportunitiesApprovedHealthcare {
           edges {
             node {
@@ -47,8 +57,9 @@ const businessQuery = `{
           }
         }
       }`
-    const preprocessOpportunity = arr =>
-    arr.map(({ node: {latLng, covid19Cases, covid19Deaths, ...rest} }) => ({
+
+const preprocessOpportunity = arr =>
+    arr.map(({ node: { latLng, covid19Cases, covid19Deaths, ...rest } }) => ({
         ...rest,
         covid19Cases: parseInt(covid19Cases, 10),
         covid19Deaths: parseInt(covid19Deaths, 10),
@@ -58,21 +69,21 @@ const businessQuery = `{
         }
     }))
 
-  const settings = {}
-  
-  const queries = [
+const settings = {}
+
+const queries = [
     {
-      query: businessQuery,
-      transformer: ({ data }) => preprocessBusinesses(data.businesses.edges),
-      indexName: process.env.ALGOLIA_BUSINESS_INDEX_NAME,
-      settings,
+        query: businessQuery,
+        transformer: ({ data }) => preprocessBusinesses(data.businesses.edges),
+        indexName: process.env.ALGOLIA_BUSINESS_INDEX_NAME,
+        settings,
     },
     {
-      query: opportunityQuery,
-      transformer: ({ data }) => preprocessOpportunity(data.opportunities.edges),
-      indexName: process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME,
-      settings,
+        query: opportunityQuery,
+        transformer: ({ data }) => preprocessOpportunity(data.opportunities.edges),
+        indexName: process.env.ALGOLIA_OPPORTUNITY_INDEX_NAME,
+        settings,
     },
-  ]
-  
-  module.exports = queries
+]
+
+module.exports = queries
