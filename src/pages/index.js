@@ -38,6 +38,7 @@ const IndexPage = () => {
     process.env.GATSBY_ALGOLIA_APP_ID,
     process.env.GATSBY_ALGOLIA_PUBLIC_API_KEY
   )
+  const pledgeText = 'I will practice social distancing and wear a mask in public if not to protect myself than to protect the vulnerable around me.';
   return (
     <Layout>
       <SEO title="Pandemic Support" />
@@ -96,8 +97,15 @@ const IndexPage = () => {
       <iframe className="desktop-only" title="CDC Mask Making Tutorial" width="560" height="315" src="https://www.youtube-nocookie.com/embed/tPx1yqvJgf4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <Heading level={2}>Take the social distancing pledge</Heading>
       <Paragraph>
-        I pledge to practice social distancing and wear a mask in public not to protect myself but to protect the vulnerable around me.
+        {pledgeText}
       </Paragraph>
+      <Box
+        direction="row-responsive"
+        gap="xsmall"
+      >
+        <Button target="_blank" rel="noopener" label="Share on Facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(process.env.GATSBY_EXTERNAL_BASE_URL)}`} onClick={() => trackGoal("VAKTHKUS")} />
+        <Button target="_blank" rel="noopener" label="Tweet This" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(pledgeText)}%20%23flattenthecurve%0A%0A${encodeURIComponent(process.env.GATSBY_EXTERNAL_BASE_URL)}`} onClick={() => trackGoal("VAKTHKUS")} />
+      </Box>
     </Layout>
   )
 }
