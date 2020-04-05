@@ -11,7 +11,7 @@ import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
 function SEO({ description, lang, meta, title }) {
-  const { site } = useStaticQuery(
+  const { site, icon } = useStaticQuery(
     graphql`
       query {
         site {
@@ -20,6 +20,9 @@ function SEO({ description, lang, meta, title }) {
             description
             author
           }
+        }
+        icon: file(relativePath: {eq: "icon.png"}) {
+          publicURL
         }
       }
     `
@@ -50,6 +53,10 @@ function SEO({ description, lang, meta, title }) {
         {
           property: `og:type`,
           content: `website`,
+        },
+        {
+          property: `og:image`,
+          content: process.env.GATSBY_EXTERNAL_BASE_URL + icon.publicURL,
         },
         {
           name: `twitter:card`,

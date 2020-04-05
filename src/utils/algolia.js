@@ -29,7 +29,7 @@ const preprocessBusinesses = (arr) =>
       loc = l.split(":")
       return loc[0]
     }),
-    logoPublicUrl: process.env.EXTERNAL_BASE_URL + logoImage.publicURL,
+    logoPublicUrl: process.env.GATSBY_EXTERNAL_BASE_URL + logoImage.publicURL,
     _geoloc: locations.split("|").map((l) => {
       loc = l.split(":")
       return {

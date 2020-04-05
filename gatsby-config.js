@@ -7,7 +7,7 @@ const queries = require("./src/utils/algolia")
 module.exports = {
   siteMetadata: {
     title: `Pandemic Support`,
-    description: `Find opportunities to support your community`,
+    description: `Find opportunities to support your community fight covid-19`,
     author: `Gabe Mulley`,
   },
   plugins: [
@@ -29,6 +29,13 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/icon.svg`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: process.env.GATSBY_EXTERNAL_BASE_URL,
+        stripQueryString: true,
       },
     },
     {
