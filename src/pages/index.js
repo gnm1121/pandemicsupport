@@ -51,6 +51,7 @@ const IndexPage = () => {
           >
             <CustomRefinementList label="Opportunity type" attribute="opportunityType" />
             <CustomRefinementList label="Remote volunteers welcome?" attribute="remote" />
+            <CustomRefinementList label="Who is needed?" attribute="talentNeeded" />
           </Box>
           <CustomHits hitComponent={OpportunityHit} />
           <CustomPagination />

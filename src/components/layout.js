@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
       <Footer background="light-4" justify="center" pad="small">
         <Text textAlign="center" size="small">
           © {new Date().getFullYear()}
-          { ` Gabe Mulley, Built with icons made by `}
+          { ` Built with icons made by `}
           <Anchor href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</Anchor>
           { ` from `} <Anchor href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</Anchor>
         </Text>
