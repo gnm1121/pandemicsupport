@@ -21,7 +21,6 @@ import {
 } from "react-instantsearch-dom"
 import places from "places.js"
 import algoliasearch from "algoliasearch/lite"
-import { Add } from "grommet-icons"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -74,7 +73,7 @@ const IndexPage = () => {
           target="_blank"
           rel="noopener"
         >
-          <Add size="small" /> Add an opportunity
+          Add an opportunity
         </Anchor>
         <Heading level={2}>Support local businesses</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
@@ -86,7 +85,7 @@ const IndexPage = () => {
           target="_blank"
           rel="noopener"
         >
-          <Add size="small" /> Add a business
+          Add a business
         </Anchor>
       </InstantSearch>
     </Layout>

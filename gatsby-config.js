@@ -7,7 +7,7 @@ const queries = require("./src/utils/algolia")
 module.exports = {
   siteMetadata: {
     title: `Pandemic Support`,
-    description: `Find opportunities to support your community fight covid-19`,
+    description: `Find opportunities to help your community fight covid-19`,
     author: `Gabe Mulley`,
   },
   plugins: [
