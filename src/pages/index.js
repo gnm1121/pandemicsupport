@@ -143,6 +143,9 @@ const BusinessHit = ({ hit }) => {
   } else if (hit.onlineOrderingLink) {
     url = hit.onlineOrderingLink
     label = "Order Online"
+  } else if (hit.giftCardPurchaseLink) {
+    url = hit.giftCardPurchaseLink
+    label = "Buy Gift Cards"
   }
   return (
     <>
@@ -164,7 +167,7 @@ const BusinessHit = ({ hit }) => {
             Order Online
           </Anchor>
         )}
-        {hit.giftCardPurchaseLink && (
+        {url !== hit.giftCardPurchaseLink && hit.giftCardPurchaseLink && (
           <Anchor
             href={hit.giftCardPurchaseLink}
             onClick={() => trackGoal("JIEHERJY")}
