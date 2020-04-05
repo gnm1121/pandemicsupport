@@ -19,6 +19,7 @@ import {
   createConnector,
   connectPagination,
   Configure,
+  connectSearchBox,
 } from "react-instantsearch-dom"
 import places from "places.js"
 import algoliasearch from "algoliasearch/lite"
@@ -44,9 +45,9 @@ const IndexPage = () => {
         searchClient={searchClient}
         indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}
       >
-        <Heading level={2}>Volunteer and donate</Heading>
         <PlacesSearchBox placeholder="Where are you?" />
         <Configure hitsPerPage={10} clickAnalytics />
+        <Heading level={2}>Volunteer and donate</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}>
           <Box
             direction="row-responsive"
@@ -78,6 +79,7 @@ const IndexPage = () => {
         </Anchor>
         <Heading level={2}>Support local businesses</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
+          <CustomSearchBox />
           <CustomHits hitComponent={BusinessHit} />
           <CustomPagination />
         </Index>
@@ -365,7 +367,7 @@ const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
         )
       })}
 
-    {currentRefinement !== nbPages && (
+    {currentRefinement !== nbPages && nbPages > 0 && (
       <Box pad="xsmall" align="center">
         <Anchor onClick={() => refine(currentRefinement + 1)}>Next</Anchor>
       </Box>
@@ -374,5 +376,17 @@ const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
 )
 
 const CustomPagination = connectPagination(Pagination)
+
+
+const SearchBox = ({ currentRefinement, refine }) => (
+  <TextInput
+    type="search"
+    placeholder="What is the name of the business?"
+    value={currentRefinement}
+    onChange={event => refine(event.currentTarget.value)}
+  />
+);
+
+const CustomSearchBox = connectSearchBox(SearchBox);
 
 export default IndexPage
