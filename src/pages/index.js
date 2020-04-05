@@ -74,7 +74,7 @@ const IndexPage = () => {
           target="_blank"
           rel="noopener"
         >
-          <Add /> Add an opportunity
+          <Add size="small" /> Add an opportunity
         </Anchor>
         <Heading level={2}>Support local businesses</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
@@ -86,7 +86,7 @@ const IndexPage = () => {
           target="_blank"
           rel="noopener"
         >
-          <Add /> Add a business
+          <Add size="small" /> Add a business
         </Anchor>
       </InstantSearch>
     </Layout>
