@@ -6,7 +6,7 @@ import { Header as GrommetHeader, Heading } from "grommet"
 import Logo from "../images/icon.inline.svg"
 
 const Header = ({ siteTitle }) => (
-  <GrommetHeader background="brand" pad={{ left: "small" }}>
+  <GrommetHeader background="brand" pad={{ left: "xlarge" }}>
     <Heading>
       <Link
         to="/"
