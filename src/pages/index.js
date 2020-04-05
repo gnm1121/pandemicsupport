@@ -94,12 +94,7 @@ const IndexPage = () => {
       <iframe className="desktop-only" title="CDC Mask Making Tutorial" width="560" height="315" src="https://www.youtube-nocookie.com/embed/tPx1yqvJgf4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <Heading level={2}>Take the social distancing pledge</Heading>
       <Paragraph>
-        I pledge to do everything I can to protect those that are most vulerable around me.<br/>
-        I am here to support my community in the fight against this virus.<br/>
-        I recongize how important it is to flatten the curve.<br/>
-        I recongize I may be a carrier for the virus and not know it.<br/>
-        I will practice social distancing and I will wear a mask in public.<br/>
-        I will save lives.
+        I pledge to practice social distancing and wear a mask in public not to protect myself but to protect the vulnerable around me.
       </Paragraph>
     </Layout>
   )
