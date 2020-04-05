@@ -1,6 +1,6 @@
 require("dotenv").config({
   path: `.env.development`,
-});
+})
 
 const queries = require("./src/utils/algolia")
 
@@ -35,21 +35,24 @@ module.exports = {
       resolve: "gatsby-source-google-spreadsheet",
       options: {
         spreadsheetId: process.env.SPREADSHEET_ID,
-    
+
         // The `spreadsheetName` is recommended, but optional
         // It is used as part of the id's during the node creation, as well as in the generated GraphQL-schema
         // If you are sourcing multiple sheets, you can set this to distringuish between the source data
         spreadsheetName: "Opportunities",
-    
+
         // The `typePrefix` is optional, default value is "GoogleSpreadsheet"
         // It is used as part of the id's during the node creation, as well as in the generated GraphQL-schema
         // It can be overridden to fully customize the root query
         typePrefix: "GoogleSpreadsheet",
         credentials: {
           client_email: process.env.GOOGLE_SPREADSHEET_AUTH_EMAIL,
-          private_key: process.env.GOOGLE_SPREADSHEET_AUTH_PRIVATE_KEY.replace(/\\n/gm, '\n')
-        }
-      }
+          private_key: process.env.GOOGLE_SPREADSHEET_AUTH_PRIVATE_KEY.replace(
+            /\\n/gm,
+            "\n"
+          ),
+        },
+      },
     },
     {
       resolve: `gatsby-plugin-prefetch-google-fonts`,
@@ -57,11 +60,11 @@ module.exports = {
         fonts: [
           {
             family: `Roboto Mono`,
-            variants: [`400`, `700`]
+            variants: [`400`, `700`],
           },
           {
             family: `Roboto`,
-            subsets: [`latin`]
+            subsets: [`latin`],
           },
         ],
       },
@@ -81,17 +84,17 @@ module.exports = {
       resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {
-          include: /\.inline\.svg$/
-        }
-      }
+          include: /\.inline\.svg$/,
+        },
+      },
     },
     {
-      resolve: 'gatsby-plugin-fathom',
+      resolve: "gatsby-plugin-fathom",
       options: {
         siteId: process.env.GATSBY_FATHOM_SITE_ID,
         whitelistHostnames: [],
-      }
-    }
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
