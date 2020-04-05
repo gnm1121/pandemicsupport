@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
       theme={grommet}
     >
       <Header siteTitle={data.site.siteMetadata.title} />
-      <Main pad="medium">
+      <Main pad={{left:"xlarge", right:"xlarge", top:"medium", bottom:"medium"}}>
         {children}
       </Main>
       <Footer background="light-4" justify="center" pad="small">
