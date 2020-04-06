@@ -29,6 +29,7 @@ module.exports = {
         theme_color: `#7D4CDB`,
         display: `minimal-ui`,
         icon: `src/images/icon.svg`, // This path is relative to the root of the site.
+        cache_busting_mode: `name`,
       },
     },
     {
