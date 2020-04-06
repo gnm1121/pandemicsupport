@@ -1,4 +1,5 @@
 import React from "react"
+import qs from 'qs'
 
 import {
   Box,
@@ -27,13 +28,56 @@ import algoliasearch from "algoliasearch/lite"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+const DEBOUNCE_TIME = 1000;
+
 const trackGoal = (goalId) => {
   if (typeof window !== "undefined" && "fathom" in window) {
     window.fathom("trackGoal", goalId, 0)
   }
 }
 
+const qsOptions = {
+  allowDots: true,
+  // encoder: function (str, defaultEncoder, charset, type) {
+  //   let compressedStr = str;
+  //   if (type === 'key') {
+  //     compressedStr = str.replace(/^indices\./, 'i.')
+  //   }
+  //   return defaultEncoder(compressedStr, defaultEncoder, charset, type)
+  // },
+  // decoder: function (str, defaultEncoder, charset, type) {
+  //   let decompressedStr = str;
+  //   if (type === 'key') {
+  //     decompressedStr = str.replace(/^i\./, 'indices.')
+  //   }
+  //   return defaultEncoder(decompressedStr, defaultEncoder, charset, type)
+  // }
+}
+
+const createURL = state => `/?${qs.stringify(state, qsOptions)}`;
+
 const IndexPage = () => {
+  let initialSearchState = null;
+  if (typeof window !== 'undefined') {
+    initialSearchState = qs.parse(window.location.search.slice(1), qsOptions)
+  }
+  const [searchState, setSearchState] = React.useState(initialSearchState);
+  const [debouncedSetState, setDebouncedSetState] = React.useState(null);
+
+  const onSearchStateChange = updatedSearchState => {
+    clearTimeout(debouncedSetState);
+
+    setDebouncedSetState(
+      setTimeout(() => {
+        console.log(updatedSearchState);
+        if (typeof window !== 'undefined') {
+          window.history.pushState({}, null, updatedSearchState ? createURL(updatedSearchState) : '')
+        }
+      }, DEBOUNCE_TIME)
+    );
+
+    setSearchState(updatedSearchState);
+  };
   const searchClient = algoliasearch(
     process.env.GATSBY_ALGOLIA_APP_ID,
     process.env.GATSBY_ALGOLIA_PUBLIC_API_KEY
@@ -45,6 +89,9 @@ const IndexPage = () => {
       <InstantSearch
         searchClient={searchClient}
         indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}
+        searchState={searchState}
+        onSearchStateChange={onSearchStateChange}
+        createURL={createURL}
       >
         <PlacesSearchBox placeholder="Where are you?" />
         <Configure hitsPerPage={10} clickAnalytics />
@@ -94,7 +141,7 @@ const IndexPage = () => {
       </InstantSearch>
       <Heading level={2}>Slow the spread by wearing a mask</Heading>
       <Anchor className="mobile-only" href="https://youtu.be/tPx1yqvJgf4" target="_blank" rel="noopener">CDC Mask Making Tutorial</Anchor>
-      <iframe className="desktop-only" title="CDC Mask Making Tutorial" width="560" height="315" src="https://www.youtube-nocookie.com/embed/tPx1yqvJgf4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe className="desktop-only" title="CDC Mask Making Tutorial" width="560" height="315" src="https://www.youtube-nocookie.com/embed/tPx1yqvJgf4" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
       <Heading level={2}>Take the social distancing pledge</Heading>
       <Paragraph>
         {pledgeText}
