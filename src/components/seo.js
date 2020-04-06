@@ -21,12 +21,13 @@ function SEO({ description, lang, meta, title }) {
             author
           }
         }
-        openGraphImage: file(relativePath: {eq: "open_graph.png"}) {
-          publicURL
-        }
       }
     `
   )
+
+  // openGraphImage: file(relativePath: {eq: "open_graph.png"}) {
+  //   publicURL
+  // }
 
   const metaDescription = description || site.siteMetadata.description
 
