@@ -21,13 +21,13 @@ function SEO({ description, lang, meta, title }) {
             author
           }
         }
+        openGraphImage: file(relativePath: {eq: "open_graph.png"}) {
+          publicURL
+        }
       }
     `
   )
 
-  // openGraphImage: file(relativePath: {eq: "open_graph.png"}) {
-  //   publicURL
-  // }
 
   const metaDescription = description || site.siteMetadata.description
 
@@ -55,18 +55,18 @@ function SEO({ description, lang, meta, title }) {
           property: `og:type`,
           content: `website`,
         },
-        // {
-        //   property: `og:image`,
-        //   content: process.env.GATSBY_EXTERNAL_BASE_URL + openGraphImage.publicURL,
-        // },
-        // {
-        //   property: `og:image:width`,
-        //   content: "2398",
-        // },
-        // {
-        //   property: `og:image:height`,
-        //   content: "4382",
-        // },
+        {
+          property: `og:image`,
+          content: process.env.GATSBY_EXTERNAL_BASE_URL + openGraphImage.publicURL,
+        },
+        {
+          property: `og:image:width`,
+          content: "1920",
+        },
+        {
+          property: `og:image:height`,
+          content: "1920",
+        },
         {
           name: `twitter:card`,
           content: `summary`,
