@@ -61,8 +61,9 @@ const opportunityQuery = `{
       }`
 
 const preprocessOpportunity = (arr) =>
-  arr.map(({ node: { latLng, covid19Cases, covid19Deaths, ...rest } }) => ({
+  arr.map(({ node: { latLng, talentNeeded, covid19Cases, covid19Deaths, ...rest } }) => ({
     ...rest,
+    talentNeeded: talentNeeded.split(","),
     covid19Cases: parseInt(covid19Cases, 10),
     covid19Deaths: parseInt(covid19Deaths, 10),
     _geoloc: {

@@ -36,10 +36,10 @@ const Layout = ({ children }) => {
           © {new Date().getFullYear()}
           {` Built with icons made by `}
           <Anchor
-            href="https://www.flaticon.com/authors/freepik"
-            title="Freepik"
+            href="https://www.flaticon.com/authors/good-ware"
+            title="Good Ware"
           >
-            Freepik
+            Good Ware
           </Anchor>
           {` from `}{" "}
           <Anchor href="https://www.flaticon.com/" title="Flaticon">
