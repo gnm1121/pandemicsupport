@@ -21,6 +21,7 @@ import {
   connectPagination,
   Configure,
   connectSearchBox,
+  PoweredBy,
 } from "react-instantsearch-dom"
 import places from "places.js"
 import algoliasearch from "algoliasearch/lite"
@@ -117,6 +118,9 @@ const IndexPage = () => {
           </Box>
           <CustomHits hitComponent={OpportunityHit} />
           <CustomPagination />
+          <Box direction="row" justify="end">
+            <PoweredBy />
+          </Box>
         </Index>
         <Anchor
           href="https://forms.gle/TFoUSDuq6uC51J5F9"
@@ -130,6 +134,9 @@ const IndexPage = () => {
           <CustomSearchBox />
           <CustomHits hitComponent={BusinessHit} />
           <CustomPagination />
+          <Box direction="row" justify="end">
+            <PoweredBy />
+          </Box>
         </Index>
         <Anchor
           href="https://forms.gle/qhp5cuUS4PVeUa8w8"
