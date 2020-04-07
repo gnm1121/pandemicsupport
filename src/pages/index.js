@@ -97,7 +97,7 @@ const IndexPage = () => {
         createURL={createURL}
       >
         <PlacesSearchBox placeholder="Where are you?" />
-        <Configure hitsPerPage={10} clickAnalytics />
+        <Configure hitsPerPage={20} clickAnalytics />
         <Heading level={2}>Volunteer and donate</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_OPPORTUNITY_INDEX_NAME}>
           <Box
