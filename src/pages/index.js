@@ -132,9 +132,9 @@ const IndexPage = () => {
           </Box>
         </Index>
         <Anchor
-          href="https://forms.gle/TFoUSDuq6uC51J5F9"
+          href="https://docs.google.com/forms/d/e/1FAIpQLScnMsXpvI1UUWmFa7N4aAGgpbRm-jGOBlpp6z59ZmdTpVIxBA/viewform"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           Add an opportunity
         </Anchor>
@@ -154,9 +154,9 @@ const IndexPage = () => {
           </Box>
         </Index>
         <Anchor
-          href="https://forms.gle/qhp5cuUS4PVeUa8w8"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSc81m4TMbuG-3E2LhbMk4zoWc6V6s8DQpnt22EyPXrRvEb_Pw/viewform"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           Add a business
         </Anchor>
