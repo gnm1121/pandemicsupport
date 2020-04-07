@@ -21,13 +21,15 @@ import {
   connectPagination,
   Configure,
   connectSearchBox,
-  PoweredBy,
+  connectPoweredBy,
 } from "react-instantsearch-dom"
 import places from "places.js"
 import algoliasearch from "algoliasearch/lite"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+
+import AlgoliaLogo from "../images/algolia.inline.svg"
 
 const DEBOUNCE_TIME = 1000;
 
@@ -119,7 +121,7 @@ const IndexPage = () => {
           <CustomHits hitComponent={OpportunityHit} />
           <CustomPagination />
           <Box direction="row" justify="end">
-            <PoweredBy />
+            <CustomPoweredBy />
           </Box>
         </Index>
         <Anchor
@@ -135,7 +137,7 @@ const IndexPage = () => {
           <CustomHits hitComponent={BusinessHit} />
           <CustomPagination />
           <Box direction="row" justify="end">
-            <PoweredBy />
+            <CustomPoweredBy />
           </Box>
         </Index>
         <Anchor
@@ -450,5 +452,22 @@ const SearchBox = ({ currentRefinement, refine }) => (
 );
 
 const CustomSearchBox = connectSearchBox(SearchBox);
+
+const PoweredBy = ({ url }) => (
+  <Box
+    direction="row"
+    gap="xsmall"
+  >
+    <Text size="small">Search by </Text>
+    <Anchor
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <AlgoliaLogo width={70} />
+    </Anchor>
+  </Box>
+)
+const CustomPoweredBy = connectPoweredBy(PoweredBy);
 
 export default IndexPage
