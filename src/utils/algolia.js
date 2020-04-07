@@ -5,7 +5,6 @@ const businessQuery = `{
           objectID: id
           name
           businessType: whatTypeOfBusinessIsIt_
-          supportMethods: howCanPeopleSupportThisBusiness_
           locations
           donationLink
           giftCardPurchaseLink
@@ -24,7 +23,6 @@ const businessQuery = `{
 const preprocessBusinesses = (arr) =>
   arr.map(({ node: { locations, supportMethods, logoImage, ...rest } }) => ({
     ...rest,
-    supportMethods: supportMethods.split(","),
     addresses: locations.split("|").map((l) => {
       loc = l.split(":")
       return loc[0]
