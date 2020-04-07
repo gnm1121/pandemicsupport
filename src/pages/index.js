@@ -22,6 +22,7 @@ import {
   Configure,
   connectSearchBox,
   connectPoweredBy,
+  connectStats,
 } from "react-instantsearch-dom"
 import places from "places.js"
 import algoliasearch from "algoliasearch/lite"
@@ -118,6 +119,12 @@ const IndexPage = () => {
               attribute="talentNeeded"
             />
           </Box>
+          <Box pad={{top: "small", bottom: "small"}}>
+            <CustomStats
+              labelSingular="opportunity"
+              labelPlural="opportunities"
+            />
+          </Box>
           <CustomHits hitComponent={OpportunityHit} />
           <CustomPagination />
           <Box direction="row" justify="end">
@@ -134,6 +141,12 @@ const IndexPage = () => {
         <Heading level={2}>Support local businesses</Heading>
         <Index indexName={process.env.GATSBY_ALGOLIA_BUSINESS_INDEX_NAME}>
           <CustomSearchBox />
+          <Box pad={{top: "small", bottom: "small"}}>
+            <CustomStats
+              labelSingular="business"
+              labelPlural="businesses"
+            />
+          </Box>
           <CustomHits hitComponent={BusinessHit} />
           <CustomPagination />
           <Box direction="row" justify="end">
@@ -473,5 +486,13 @@ const PoweredBy = ({ url }) => (
   </Box>
 )
 const CustomPoweredBy = connectPoweredBy(PoweredBy);
+
+const Stats = ({ nbHits, labelSingular, labelPlural }) => (
+  <Text>
+    Found {nbHits} {nbHits === 1 ? labelSingular : labelPlural}
+  </Text>
+);
+
+const CustomStats = connectStats(Stats);
 
 export default IndexPage
