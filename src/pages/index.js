@@ -221,9 +221,13 @@ const BusinessHit = ({ hit }) => {
     url = hit.giftCardPurchaseLink
     label = "Buy Gift Cards"
   }
+  let boxStyle = {}
+  if (hit.logoBackgroundColor) {
+    boxStyle['backgroundColor'] = hit.logoBackgroundColor
+  }
   return (
     <>
-      <Box justify="center" height={{ min: "100px" }}>
+      <Box justify="center" height={{ min: "130px" }} style={boxStyle} pad="xsmall">
         <Anchor href={hit.websiteLink}>
           {hit.logoPublicUrl ? (
             <img src={hit.logoPublicUrl} alt={hit.name} width="130px" />
@@ -412,7 +416,7 @@ const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
         const isCurrentPage = currentRefinement === page
 
         return (
-          <Box border={isCurrentPage ? null : "all"} pad="xsmall">
+          <Box border={isCurrentPage ? null : "all"} pad="xsmall" key={page}>
             {isCurrentPage ? (
               <Text>{page}</Text>
             ) : (

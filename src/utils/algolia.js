@@ -1,41 +1,53 @@
 const businessQuery = `{
-    businesses: allGoogleSpreadsheetOpportunitiesApprovedBusinesses {
-      edges {
-        node {
-          objectID: id
-          name
-          businessType: whatTypeOfBusinessIsIt_
-          locations
-          donationLink
-          giftCardPurchaseLink
-          merchandisePurchaseLink
-          websiteLink
-          socialMediaLink
-          onlineOrderingLink
-          logoImage {
-            publicURL
+  businesses: allGoogleSpreadsheetOpportunitiesApprovedBusinesses {
+    edges {
+      node {
+        objectID: id
+        name
+        businessType: whatTypeOfBusinessIsIt_
+        locations
+        donationLink
+        giftCardPurchaseLink
+        merchandisePurchaseLink
+        websiteLink
+        socialMediaLink
+        onlineOrderingLink
+        logoBackgroundColor
+        logoImage {
+          publicURL
+          childImageSharp {
+            fixed(width: 130) {
+              src
+            }
           }
         }
       }
     }
-  }`
+  }
+}`
 
 const preprocessBusinesses = (arr) =>
-  arr.map(({ node: { locations, supportMethods, logoImage, ...rest } }) => ({
-    ...rest,
-    addresses: locations.split("|").map((l) => {
-      loc = l.split(":")
-      return loc[0]
-    }),
-    logoPublicUrl: process.env.GATSBY_EXTERNAL_BASE_URL + logoImage.publicURL,
-    _geoloc: locations.split("|").map((l) => {
-      loc = l.split(":")
-      return {
-        lat: parseFloat(loc[1]),
-        lng: parseFloat(loc[2]),
-      }
-    }),
-  }))
+  arr.map(({ node: { locations, supportMethods, logoImage, ...rest } }) => {
+    let logoUrl = logoImage.publicURL;
+    if (logoImage.childImageSharp !== null) {
+      logoUrl = logoImage.childImageSharp.fixed.src
+    }
+    return {
+      ...rest,
+      addresses: locations.split("|").map((l) => {
+        loc = l.split(":")
+        return loc[0]
+      }),
+      logoPublicUrl: process.env.GATSBY_EXTERNAL_BASE_URL + logoUrl,
+      _geoloc: locations.split("|").map((l) => {
+        loc = l.split(":")
+        return {
+          lat: parseFloat(loc[1]),
+          lng: parseFloat(loc[2]),
+        }
+      }),
+    }
+  })
 
 const opportunityQuery = `{
         opportunities: allGoogleSpreadsheetOpportunitiesApprovedHealthcare {
