@@ -403,7 +403,7 @@ const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
   <Box direction="row" justify="center" gap="xsmall" align="center">
     {currentRefinement !== 1 && (
       <Box pad="xsmall" align="center">
-        <Anchor onClick={() => refine(currentRefinement + 1)}>Prev</Anchor>
+        <Anchor onClick={() => refine(currentRefinement - 1)}>Prev</Anchor>
       </Box>
     )}
     {nbPages > 1 &&
