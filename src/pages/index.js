@@ -416,45 +416,51 @@ class Places extends React.Component {
 
 const PlacesSearchBox = placesConnector(Places)
 
-const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => (
-  <Box direction="row" justify="center" gap="xsmall" align="center">
-    {currentRefinement !== 1 && (
-      <Box pad="xsmall" align="center">
-        <Anchor onClick={() => refine(currentRefinement - 1)}>Prev</Anchor>
-      </Box>
-    )}
-    {nbPages > 1 &&
-      new Array(nbPages).fill(null).map((_, index) => {
-        const page = index + 1
-        const isCurrentPage = currentRefinement === page
+const Pagination = ({ currentRefinement, nbPages, refine, createURL }) => {
+  if (currentRefinement > nbPages && nbPages > 0) {
+    refine(1);
+    return (<></>)
+  }
+  return (
+    <Box direction="row" justify="center" gap="xsmall" align="center">
+      {currentRefinement !== 1 && (
+        <Box pad="xsmall" align="center">
+          <Anchor onClick={() => refine(currentRefinement - 1)}>Prev</Anchor>
+        </Box>
+      )}
+      {nbPages > 1 &&
+        new Array(nbPages).fill(null).map((_, index) => {
+          const page = index + 1
+          const isCurrentPage = currentRefinement === page
 
-        return (
-          <Box border={isCurrentPage ? null : "all"} pad="xsmall" key={page}>
-            {isCurrentPage ? (
-              <Text>{page}</Text>
-            ) : (
-              <Anchor
-                key={index}
-                href={createURL(page)}
-                onClick={(event) => {
-                  event.preventDefault()
-                  refine(page)
-                }}
-              >
-                {page}
-              </Anchor>
-            )}
-          </Box>
-        )
-      })}
+          return (
+            <Box border={isCurrentPage ? null : "all"} pad="xsmall" key={page}>
+              {isCurrentPage ? (
+                <Text>{page}</Text>
+              ) : (
+                <Anchor
+                  key={index}
+                  href={createURL(page)}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    refine(page)
+                  }}
+                >
+                  {page}
+                </Anchor>
+              )}
+            </Box>
+          )
+        })}
 
-    {currentRefinement !== nbPages && nbPages > 0 && (
-      <Box pad="xsmall" align="center">
-        <Anchor onClick={() => refine(currentRefinement + 1)}>Next</Anchor>
-      </Box>
-    )}
-  </Box>
-)
+      {currentRefinement !== nbPages && nbPages > 0 && (
+        <Box pad="xsmall" align="center">
+          <Anchor onClick={() => refine(currentRefinement + 1)}>Next</Anchor>
+        </Box>
+      )}
+    </Box>
+  )
+}
 
 const CustomPagination = connectPagination(Pagination)
 

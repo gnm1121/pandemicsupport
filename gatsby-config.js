@@ -9,6 +9,7 @@ module.exports = {
     title: `Pandemic Support`,
     description: `Find opportunities to help your community fight covid-19`,
     author: `Gabe Mulley`,
+    siteUrl: process.env.GATSBY_EXTERNAL_BASE_URL
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -32,6 +33,7 @@ module.exports = {
         cache_busting_mode: `name`,
       },
     },
+    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
