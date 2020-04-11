@@ -196,8 +196,8 @@ const IndexPage = () => {
         direction="row-responsive"
         gap="xsmall"
       >
-        <Button target="_blank" rel="noopener" label="Share on Facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(process.env.GATSBY_EXTERNAL_BASE_URL)}`} onClick={() => trackGoal("VAKTHKUS")} />
-        <Button target="_blank" rel="noopener" label="Tweet This" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(pledgeText)}%20%23flattenthecurve%0A%0A${encodeURIComponent(process.env.GATSBY_EXTERNAL_BASE_URL)}`} onClick={() => trackGoal("VAKTHKUS")} />
+        <Button target="_blank" rel="noopener" label="Share on Facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(process.env.GATSBY_EXTERNAL_BASE_URL)}`} onClick={() => trackGoal("Shared on Social Media", null)} />
+        <Button target="_blank" rel="noopener" label="Tweet This" href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(pledgeText)}%20%23flattenthecurve%0A%0A${encodeURIComponent(process.env.GATSBY_EXTERNAL_BASE_URL)}`} onClick={() => trackGoal("Shared on Social Media", null)} />
       </Box>
     </Layout>
   )
