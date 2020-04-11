@@ -23,6 +23,7 @@ import {
   connectSearchBox,
   connectPoweredBy,
   connectStats,
+  connectHitInsights,
 } from "react-instantsearch-dom"
 import places from "places.js"
 import algoliasearch from "algoliasearch/lite"
@@ -33,32 +34,61 @@ import SEO from "../components/seo"
 import AlgoliaLogo from "../images/algolia.inline.svg"
 
 const DEBOUNCE_TIME = 1000;
+const GOAL_ID = {
+  'Clicked Business Primary': 'JIEHERJY',
+  'Clicked Business Secondary': '8MROVIYE',
+  'Clicked Opportunity': 'MEBZPZAO',
+}
 
-const trackGoal = (goalId) => {
+const trackGoal = (eventName, insights) => {
   if (typeof window !== "undefined" && "fathom" in window) {
-    window.fathom("trackGoal", goalId, 0)
+    window.fathom("trackGoal", GOAL_ID[eventName], 0)
   }
+  insights('clickedObjectIDsAfterSearch', {
+    eventName: eventName
+  })
 }
 
 const qsOptions = {
   allowDots: true,
-  // encoder: function (str, defaultEncoder, charset, type) {
-  //   let compressedStr = str;
-  //   if (type === 'key') {
-  //     compressedStr = str.replace(/^indices\./, 'i.')
-  //   }
-  //   return defaultEncoder(compressedStr, defaultEncoder, charset, type)
-  // },
-  // decoder: function (str, defaultEncoder, charset, type) {
-  //   let decompressedStr = str;
-  //   if (type === 'key') {
-  //     decompressedStr = str.replace(/^i\./, 'indices.')
-  //   }
-  //   return defaultEncoder(decompressedStr, defaultEncoder, charset, type)
-  // }
 }
 
 const createURL = state => `/?${qs.stringify(state, qsOptions)}`;
+
+const getUserToken = () => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+const USER_TOKEN = getUserToken();
+
+const sendHitInsights = (ignored, payload) => {
+  const appId = process.env.GATSBY_ALGOLIA_APP_ID;
+  const apiKey = process.env.GATSBY_ALGOLIA_PUBLIC_API_KEY;
+  const url = `https://insights.algolia.io/1/events?X-Algolia-Application-Id=${appId}&X-Algolia-API-Key=${apiKey}`
+  const serializedData = JSON.stringify({
+    events: [
+      {
+        eventType: 'click',
+        eventName: payload.eventName,
+        userToken: USER_TOKEN,
+        index: payload.index,
+        queryID: payload.queryID,
+        objectIDs: payload.objectIDs,
+        positions: payload.positions,
+      }
+    ]
+  });
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(url, serializedData);
+  } else {
+    const report = new XMLHttpRequest();
+    report.open("POST", url);
+    report.send(serializedData);
+  }
+}
 
 const IndexPage = () => {
   let initialSearchState = null;
@@ -73,7 +103,6 @@ const IndexPage = () => {
 
     setDebouncedSetState(
       setTimeout(() => {
-        console.log(updatedSearchState);
         if (typeof window !== 'undefined') {
           window.history.pushState({}, null, updatedSearchState ? createURL(updatedSearchState) : '')
         }
@@ -198,13 +227,13 @@ const Hits = ({ hits, hitComponent }) => (
         justify="between"
         width="230px"
       >
-        {hitComponent({ hit })}
+        {connectHitInsights(sendHitInsights)(hitComponent)({ hit })}
       </Box>
     ))}
   </Box>
 )
 
-const OpportunityHit = ({ hit }) => (
+const OpportunityHit = ({ hit, insights }) => (
   <>
     <Anchor href={hit.websiteLink}>
       <Text>{hit.name}</Text>
@@ -214,14 +243,14 @@ const OpportunityHit = ({ hit }) => (
         label="Support"
         href={hit.websiteLink}
         margin={{ top: "small" }}
-        onClick={() => trackGoal("MEBZPZAO")}
+        onClick={() => trackGoal('Clicked Opportunity', insights)}
       />
     )}
   </>
 )
 
 // socialMediaLink
-const BusinessHit = ({ hit }) => {
+const BusinessHit = ({ hit, insights }) => {
   let url = "",
     label = ""
   if (hit.donationLink) {
@@ -241,7 +270,10 @@ const BusinessHit = ({ hit }) => {
   return (
     <>
       <Box justify="center" height={{ min: "130px" }} style={boxStyle} pad="xsmall">
-        <Anchor href={hit.websiteLink}>
+        <Anchor
+          href={hit.websiteLink}
+          onClick={() => trackGoal('Clicked Business Secondary', insights)}
+        >
           {hit.logoPublicUrl ? (
             <img src={hit.logoPublicUrl} alt={hit.name} width="130px" />
           ) : (
@@ -253,7 +285,7 @@ const BusinessHit = ({ hit }) => {
         {url !== hit.onlineOrderingLink && hit.onlineOrderingLink && (
           <Anchor
             href={hit.onlineOrderingLink}
-            onClick={() => trackGoal("JIEHERJY")}
+            onClick={() => trackGoal('Clicked Business Secondary', insights)}
           >
             Order Online
           </Anchor>
@@ -261,7 +293,7 @@ const BusinessHit = ({ hit }) => {
         {url !== hit.giftCardPurchaseLink && hit.giftCardPurchaseLink && (
           <Anchor
             href={hit.giftCardPurchaseLink}
-            onClick={() => trackGoal("JIEHERJY")}
+            onClick={() => trackGoal('Clicked Business Secondary', insights)}
           >
             Buy Gift Cards
           </Anchor>
@@ -269,19 +301,24 @@ const BusinessHit = ({ hit }) => {
         {hit.merchandisePurchaseLink && (
           <Anchor
             href={hit.merchandisePurchaseLink}
-            onClick={() => trackGoal("JIEHERJY")}
+            onClick={() => trackGoal('Clicked Business Secondary', insights)}
           >
             Buy Merch
           </Anchor>
         )}
         {hit.socialMediaLink && (
-          <Anchor href={hit.socialMediaLink}>Follow Updates</Anchor>
+          <Anchor
+            href={hit.socialMediaLink}
+            onClick={() => trackGoal('Clicked Business Secondary', insights)}
+          >
+            Follow Updates
+          </Anchor>
         )}
         {url && (
           <Button
             label={label}
             href={url}
-            onClick={() => trackGoal("JIEHERJY")}
+            onClick={() => trackGoal('Clicked Business Primary', insights)}
           />
         )}
       </Box>
