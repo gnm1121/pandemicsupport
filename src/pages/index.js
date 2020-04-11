@@ -44,6 +44,9 @@ const trackGoal = (eventName, insights) => {
   if (typeof window !== "undefined" && "fathom" in window) {
     window.fathom("trackGoal", GOAL_ID[eventName], 0)
   }
+  if (typeof window !== "undefined" && "plausible" in window) {
+    window.plausible(eventName)
+  }
   // insights('clickedObjectIDsAfterSearch', {
   //   eventName: eventName
   // })
