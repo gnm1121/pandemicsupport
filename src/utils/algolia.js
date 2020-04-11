@@ -28,7 +28,7 @@ const businessQuery = `{
 
 const preprocessBusinesses = (arr) =>
   arr.map(({ node: { locations, supportMethods, logoImage, ...rest } }) => {
-    let logoUrl = logoImage.publicURL;
+    let logoUrl = logoImage.publicURL
     if (logoImage.childImageSharp !== null) {
       logoUrl = logoImage.childImageSharp.fixed.src
     }
@@ -71,16 +71,20 @@ const opportunityQuery = `{
       }`
 
 const preprocessOpportunity = (arr) =>
-  arr.map(({ node: { latLng, talentNeeded, covid19Cases, covid19Deaths, ...rest } }) => ({
-    ...rest,
-    talentNeeded: talentNeeded.split(","),
-    covid19Cases: parseInt(covid19Cases, 10),
-    covid19Deaths: parseInt(covid19Deaths, 10),
-    _geoloc: {
-      lat: parseFloat(latLng.split(":")[0]),
-      lng: parseFloat(latLng.split(":")[1]),
-    },
-  }))
+  arr.map(
+    ({
+      node: { latLng, talentNeeded, covid19Cases, covid19Deaths, ...rest },
+    }) => ({
+      ...rest,
+      talentNeeded: talentNeeded.split(","),
+      covid19Cases: parseInt(covid19Cases, 10),
+      covid19Deaths: parseInt(covid19Deaths, 10),
+      _geoloc: {
+        lat: parseFloat(latLng.split(":")[0]),
+        lng: parseFloat(latLng.split(":")[1]),
+      },
+    })
+  )
 
 const settings = {}
 

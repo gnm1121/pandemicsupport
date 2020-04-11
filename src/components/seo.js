@@ -21,13 +21,12 @@ function SEO({ description, lang, meta, title }) {
             author
           }
         }
-        openGraphImage: file(relativePath: {eq: "open_graph.png"}) {
+        openGraphImage: file(relativePath: { eq: "open_graph.png" }) {
           publicURL
         }
       }
     `
   )
-
 
   const metaDescription = description || site.siteMetadata.description
 
@@ -57,7 +56,8 @@ function SEO({ description, lang, meta, title }) {
         },
         {
           property: `og:image`,
-          content: process.env.GATSBY_EXTERNAL_BASE_URL + openGraphImage.publicURL,
+          content:
+            process.env.GATSBY_EXTERNAL_BASE_URL + openGraphImage.publicURL,
         },
         {
           property: `og:image:width`,

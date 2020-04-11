@@ -9,7 +9,7 @@ module.exports = {
     title: `Pandemic Support`,
     description: `Find opportunities to help your community fight covid-19`,
     author: `Gabe Mulley`,
-    siteUrl: process.env.GATSBY_EXTERNAL_BASE_URL
+    siteUrl: process.env.GATSBY_EXTERNAL_BASE_URL,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
