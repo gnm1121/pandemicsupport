@@ -44,9 +44,9 @@ const trackGoal = (eventName, insights) => {
   if (typeof window !== "undefined" && "fathom" in window) {
     window.fathom("trackGoal", GOAL_ID[eventName], 0)
   }
-  insights('clickedObjectIDsAfterSearch', {
-    eventName: eventName
-  })
+  // insights('clickedObjectIDsAfterSearch', {
+  //   eventName: eventName
+  // })
 }
 
 const qsOptions = {
@@ -64,7 +64,7 @@ const getUserToken = () => {
 }
 const USER_TOKEN = getUserToken();
 
-const sendHitInsights = (ignored, payload) => {
+const sendHitInsights = (_ignored, payload) => {
   const appId = process.env.GATSBY_ALGOLIA_APP_ID;
   const apiKey = process.env.GATSBY_ALGOLIA_PUBLIC_API_KEY;
   const url = `https://insights.algolia.io/1/events?X-Algolia-Application-Id=${appId}&X-Algolia-API-Key=${apiKey}`
