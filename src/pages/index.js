@@ -81,7 +81,7 @@ const sendHitInsights = (ignored, payload) => {
       }
     ]
   });
-  if (navigator.sendBeacon) {
+  if (navigator && typeof navigator.sendBeacon === 'function') {
     navigator.sendBeacon(url, serializedData);
   } else {
     const report = new XMLHttpRequest();
