@@ -6,7 +6,7 @@
   "author": "Gabe Mulley <gabe.mulley@gmail.com>",
   "dependencies": {
     "algoliasearch": "^4.1.0",
-    "gatsby": "^2.19.45",
+    "gatsby": "^4.25.7",
     "gatsby-image": "^2.2.44",
     "gatsby-plugin-algolia": "^0.6.0",
     "gatsby-plugin-canonical-urls": "^2.2.1",
